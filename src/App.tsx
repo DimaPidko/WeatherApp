@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
+import { Simulate } from 'react-dom/test-utils'
 import { useFetch } from './hooks/useFetch'
+import load = Simulate.load
 
 interface DataInfo {
   temp: string | null
   city: string | null
   weather: string | null
   weatherId: number | null
+  icon: string | null
 }
 
 function App() {
@@ -23,6 +26,7 @@ function App() {
         city: data?.name,
         weather: data?.weather[0]?.description,
         weatherId: data?.weather[0]?.id,
+        icon: data?.weather[0]?.icon
       };
       setDataInfoState(dataInfo)
       setLoading(false)
@@ -56,6 +60,8 @@ function App() {
             <h2>{'city' in dataInfoState ? dataInfoState?.city : ''}</h2>
             <h3>Temp: {Math.floor(dataInfoState?.temp)}</h3>
             <h3>Weather: {dataInfoState?.weather}</h3>
+            {loading ? <img src='/Spinner.gif' alt='loading...' className='wrapper__box-gifWeather' /> :
+              <img src={`/icons/${dataInfoState?.icon}.png`} alt='icon' />}
           </div>
         </div>
         :
@@ -71,6 +77,8 @@ function App() {
             <h2>{'city' in dataInfoState ? dataInfoState?.city : ''}</h2>
             <h3>Temp: {Math.floor(dataInfoState?.temp)}</h3>
             <h3>Weather: {dataInfoState?.weather}</h3>
+            {loading ? <img src='/Spinner.gif' alt='loading...' className='wrapper__box-gifWeather' /> :
+              <img src={`/icons/${dataInfoState?.icon}.png`} alt='icon' />}
           </div>
         </div>
       }
