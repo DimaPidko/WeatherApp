@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Simulate } from 'react-dom/test-utils'
 import { useFetch } from './hooks/useFetch'
-import load = Simulate.load
 
 interface DataInfo {
   temp: string | null
@@ -12,7 +10,13 @@ interface DataInfo {
 }
 
 function App() {
-  const [dataInfoState, setDataInfoState] = useState<DataInfo | object>({})
+  const [dataInfoState, setDataInfoState] = useState<DataInfo>({
+    temp: null,
+    city: null,
+    weather: null,
+    weatherId: null,
+    icon: null,
+  })
   const [loading, setLoading] = useState<boolean>(true)
   const [input, setInput] = useState<string>('Харьков')
   
@@ -58,7 +62,7 @@ function App() {
           <img src='/Spinner.gif' alt='loading...' className='wrapper__box-gif' />
           <div className='wrapper__box__info'>
             <h2>{'city' in dataInfoState ? dataInfoState?.city : ''}</h2>
-            <h3>Temp: {Math.floor(dataInfoState?.temp)}</h3>
+            <h3>Temp: {dataInfoState?.temp ? Math.floor(Number(dataInfoState.temp)) : ''}</h3>
             <h3>Weather: {dataInfoState?.weather}</h3>
             {loading ? <img src='/Spinner.gif' alt='loading...' className='wrapper__box-gifWeather' /> :
               <img src={`/icons/${dataInfoState?.icon}.png`} alt='icon' />}
@@ -75,7 +79,7 @@ function App() {
           />
           <div className='wrapper__box__info'>
             <h2>{'city' in dataInfoState ? dataInfoState?.city : ''}</h2>
-            <h3>Temp: {Math.floor(dataInfoState?.temp)}</h3>
+            <h3>Temp: {dataInfoState?.temp ? Math.floor(Number(dataInfoState.temp)) : ''}</h3>
             <h3>Weather: {dataInfoState?.weather}</h3>
             {loading ? <img src='/Spinner.gif' alt='loading...' className='wrapper__box-gifWeather' /> :
               <img src={`/icons/${dataInfoState?.icon}.png`} alt='icon' />}
